@@ -3,55 +3,35 @@ const {User} = require('../models/');
 const userRouter = Router();
 
 
-// obtenemos todos los usuarios
+// Todos los usuarios
 
 
-userRouter.get('/', async (req, res) => 
-{ const usuarios =  await User.find()
-res.json(usuarios)}
+userRouter.get('/', async (req, res) => { 
+    User.find((error, success) => {
+    if(error){
+        res.status(500).json({error: "No se puede conectar a la base de datos"});
+    } else {
+        res.json(success);
+    }
+})})
 
-)
-/*
+// Busqueda por ID
 
-//  obtenemos un usario por id
-
-router.get('/usuarios', async (req, res) => 
-{ const usuarios =  await userModel.find()
-res.json(usuarios)}
-)
-
-// obtenemos un usuario por nombre
-
-router.get('/usuarios', async (req, res) => 
-{ const usuarios =  await userModel.find()
-res.json(usuarios)}
-)
-
-
-// actualizamos un usuario
-
-router.get('/usuarios', async (req, res) => 
-{ const usuarios =  await userModel.find()
-res.json(usuarios)}
-)
+userRouter.get('/:id', async (req, res) => {
+    const id = req.params.id;
+    User.findById(id, {}, {}, (error, success) => {
+        if(error) {
+            res.status(500).json({error: error.message});
+        } else if (!success) {
+            res.status(404).send();
+        } else {
+            res.json(success)
+        }
+    })
+})
 
 
-// Creamos un usuario
-
-router.get('/usuarios', async (req, res) => 
-{ const usuarios =  await userModel.find()
-res.json(usuarios)}
-)
 
 
-// Borramos
-
-
-router.get('/usuarios', async (req, res) => 
-{ const usuarios =  await userModel.find()
-res.json(usuarios)}
-)
-
-*/
 
 exports.userRouter = userRouter;
