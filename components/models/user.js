@@ -9,4 +9,4 @@ const userSchema = new Schema ({
 
 console.log('model metido')
 
-module.exports = mongoose.model("User", userSchema);
+exports.User = mongoose.model("users", userSchema);
